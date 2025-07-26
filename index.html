@@ -28,15 +28,6 @@
       height: 100%;
     }
 
-    .wave {
-      animation: waveMove 2s infinite linear;
-    }
-
-    @keyframes waveMove {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
     .numero {
       position: absolute;
       top: 50%;
@@ -67,53 +58,51 @@
 <body>
 
   <div class="contador-wrapper">
-    <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
+    <svg viewBox="0 0 200 200">
       <defs>
+        <!-- Clip circular -->
         <clipPath id="clipCircle">
-          <circle cx="100" cy="100" r="100" />
+          <circle cx="100" cy="100" r="90" />
         </clipPath>
       </defs>
 
-      <g clip-path="url(#clipCircle)">
-        <!-- Fondo rosa claro -->
-        <rect x="0" y="0" width="200" height="200" fill="#ffc0cb" />
+      <!-- Círculo blanco de borde -->
+      <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="10" />
 
-        <!-- Grupo del agua -->
-        <g id="grupoAgua" transform="translate(0, 0)">
-          <g class="wave">
-            <!-- Ola más alta, cerca de la parte superior -->
-            <path d="M0 20 Q 25 30, 50 20 T 100 20 T 150 20 T 200 20 V0 H0Z"
-                  fill="#ff69b4" opacity="0.8" />
-          </g>
-        </g>
+      <!-- Fondo de "agua rosa" que se vacía -->
+      <g clip-path="url(#clipCircle)">
+        <rect id="agua" x="0" y="0" width="200" height="200" fill="#ff69b4" />
       </g>
     </svg>
 
     <div class="numero" id="numero">21</div>
   </div>
 
+  <!-- Imagen que aparece al final -->
   <img id="imagen" src="TÚ_IMAGEN_AQUÍ.jpg" alt="Sorpresa" />
 
   <script>
     let contador = 21;
     const numero = document.getElementById('numero');
+    const agua = document.getElementById('agua');
     const imagen = document.getElementById('imagen');
-    const grupoAgua = document.getElementById('grupoAgua');
+    const wrapper = document.querySelector('.contador-wrapper');
 
     const intervalo = setInterval(() => {
       contador--;
       if (contador >= 0) {
         numero.textContent = contador;
 
-        // El agua baja desde arriba hacia abajo => usamos desplazamiento negativo desde -200 a 0
+        // Altura dinámica del agua desde 200px (lleno) hasta 0px (vacío)
         const porcentaje = contador / 21;
-        const desplazamiento = -porcentaje * 200;
-        grupoAgua.setAttribute('transform', `translate(0, ${desplazamiento})`);
+        const nuevaAltura = porcentaje * 200;
+        agua.setAttribute('y', 200 - nuevaAltura);
+        agua.setAttribute('height', nuevaAltura);
       }
 
       if (contador === 0) {
         clearInterval(intervalo);
-        document.querySelector('.contador-wrapper').style.display = 'none';
+        wrapper.style.display = 'none';
         imagen.classList.add('mostrar');
       }
     }, 1000);

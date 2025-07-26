@@ -75,12 +75,14 @@
       </defs>
 
       <g clip-path="url(#clipCircle)">
+        <!-- Fondo rosa claro -->
         <rect x="0" y="0" width="200" height="200" fill="#ffc0cb" />
 
+        <!-- Grupo del agua -->
         <g id="grupoAgua" transform="translate(0, 0)">
           <g class="wave">
-            <!-- Ola colocada en la parte superior -->
-            <path d="M0 40 Q 25 50, 50 40 T 100 40 T 150 40 T 200 40 V0 H0Z" 
+            <!-- Ola más alta, cerca de la parte superior -->
+            <path d="M0 20 Q 25 30, 50 20 T 100 20 T 150 20 T 200 20 V0 H0Z"
                   fill="#ff69b4" opacity="0.8" />
           </g>
         </g>
@@ -103,9 +105,9 @@
       if (contador >= 0) {
         numero.textContent = contador;
 
-        // Movimiento de ola desde arriba (y = 0) hacia abajo (y = 200)
+        // El agua baja desde arriba hacia abajo => usamos desplazamiento negativo desde -200 a 0
         const porcentaje = contador / 21;
-        const desplazamiento = porcentaje * 200;
+        const desplazamiento = -porcentaje * 200;
         grupoAgua.setAttribute('transform', `translate(0, ${desplazamiento})`);
       }
 

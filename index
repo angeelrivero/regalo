@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Feliz Cumpleaños!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffc0cb; /* rosa */
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #contador-container {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 80px;
+      color: #ff69b4;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+      transition: transform 0.5s ease;
+    }
+
+    #imagen {
+      position: absolute;
+      opacity: 0;
+      transform: scale(0.1);
+      transition: transform 5s ease-in-out, opacity 2s ease-in;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    #imagen.mostrar {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="contador-container">21</div>
+  <img id="imagen" src="TÚ_IMAGEN_AQUÍ.jpg" alt="Sorpresa" />
+
+  <script>
+    let contador = 21;
+    const contadorContainer = document.getElementById('contador-container');
+    const imagen = document.getElementById('imagen');
+
+    const intervalo = setInterval(() => {
+      contador--;
+      if (contador >= 0) {
+        contadorContainer.textContent = contador;
+      }
+
+      if (contador === 0) {
+        clearInterval(intervalo);
+        contadorContainer.style.display = 'none';
+        imagen.classList.add('mostrar');
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>

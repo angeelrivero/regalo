@@ -7,7 +7,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #ffc0cb; /* rosa */
+      background-color: #ffc0cb;
       font-family: 'Comic Sans MS', cursive, sans-serif;
       display: flex;
       justify-content: center;
@@ -30,12 +30,6 @@
 
     .wave {
       fill: #ff69b4;
-      animation: waveAnim 2s infinite linear;
-    }
-
-    @keyframes waveAnim {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
     }
 
     .numero {
@@ -70,19 +64,32 @@
     <svg viewBox="0 0 200 200">
       <defs>
         <clipPath id="clipCircle">
-          <circle cx="100" cy="100" r="100"/>
+          <circle cx="100" cy="100" r="100" />
         </clipPath>
+        <linearGradient id="aguaRosa" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffb6c1" />
+          <stop offset="100%" stop-color="#ff69b4" />
+        </linearGradient>
       </defs>
+
       <g clip-path="url(#clipCircle)">
-        <rect id="agua" x="0" y="0" width="200" height="200">
-          <animate attributeName="y" values="0;200" dur="21s" fill="freeze" />
+        <!-- Rectángulo de fondo de agua -->
+        <rect id="agua" x="0" y="0" width="200" height="200" fill="url(#aguaRosa)">
+          <animate attributeName="y" from="0" to="200" dur="21s" fill="freeze" />
         </rect>
-        <g transform="translate(0,0)">
-          <path class="wave" d="M0 20 Q 25 0, 50 20 T 100 20 T 150 20 T 200 20 V200 H0Z" transform="translate(0,150) scale(1,1)">
-            <animateTransform attributeName="transform" attributeType="XML" type="translate" from="0,150" to="-200,150" dur="2s" repeatCount="indefinite"/>
-          </path>
-        </g>
+
+        <!-- Ondas estáticas al tope del agua -->
+        <path class="wave" d="M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z" fill="#ff69b4" opacity="0.6">
+          <animate attributeName="d" dur="2s" repeatCount="indefinite"
+            values="
+              M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z;
+              M0 162 Q 25 152, 50 162 T 100 162 T 150 162 T 200 162 V200 H0Z;
+              M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z
+            " />
+        </path>
       </g>
+
+      <!-- Borde exterior -->
       <circle cx="100" cy="100" r="98" stroke="#ff69b4" stroke-width="4" fill="none" />
     </svg>
     <div class="numero" id="numero">21</div>

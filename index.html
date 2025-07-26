@@ -49,26 +49,40 @@
       text-align: center;
       gap: 20px;
       padding: 20px;
-      max-width: 90%;
-    }
-
-    #final img {
       max-width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    }
-
-    #final video {
-      max-width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     }
 
     .mensaje {
       font-size: 22px;
       color: white;
       text-shadow: 1px 1px 2px #ff1493;
-      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .imagenes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .imagenes img {
+      max-width: 48%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    video {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    @media (max-width: 600px) {
+      .imagenes img {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -93,14 +107,18 @@
     <div class="numero" id="numero">21</div>
   </div>
 
-  <!-- Contenido final (oculto al principio) -->
+  <!-- Contenido final -->
   <div id="final">
-    <img src="images/1.png" alt="Imagen 1">
-    <img src="images/2.png" alt="Imagen 2">
-    <video src="images/3.mp4" controls></video>
     <div class="mensaje">
       Este 31 de Julio nos quedamos una nochesita en el <br><strong>Parador De Cruz de Tejeda</strong>
     </div>
+
+    <div class="imagenes">
+      <img src="images/1.png" alt="Imagen 1">
+      <img src="images/2.png" alt="Imagen 2">
+    </div>
+
+    <video src="images/3.mp4" autoplay loop muted playsinline></video>
   </div>
 
   <script>

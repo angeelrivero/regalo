@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>¡Feliz Cumpleaños!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
@@ -10,17 +11,18 @@
       background-color: #ffc0cb;
       font-family: 'Comic Sans MS', cursive, sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     .contador-wrapper {
       position: relative;
       width: 200px;
       height: 200px;
+      margin-top: 50px;
     }
 
     svg {
@@ -40,36 +42,49 @@
       z-index: 2;
     }
 
-    #imagen {
-      position: absolute;
-      opacity: 0;
-      transform: scale(0.1);
-      transition: transform 5s ease-in-out, opacity 2s ease-in;
-      max-width: 100%;
-      max-height: 100%;
+    #final {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      padding: 20px;
+      max-width: 90%;
     }
 
-    #imagen.mostrar {
-      opacity: 1;
-      transform: scale(1);
+    #final img {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    #final video {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    .mensaje {
+      font-size: 22px;
+      color: white;
+      text-shadow: 1px 1px 2px #ff1493;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
+  <!-- Contador con efecto agua -->
   <div class="contador-wrapper">
     <svg viewBox="0 0 200 200">
       <defs>
-        <!-- Clip circular -->
         <clipPath id="clipCircle">
           <circle cx="100" cy="100" r="90" />
         </clipPath>
       </defs>
 
-      <!-- Círculo blanco de borde -->
       <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="10" />
 
-      <!-- Fondo de "agua rosa" que se vacía -->
       <g clip-path="url(#clipCircle)">
         <rect id="agua" x="0" y="0" width="200" height="200" fill="#ff69b4" />
       </g>
@@ -78,22 +93,27 @@
     <div class="numero" id="numero">21</div>
   </div>
 
-  <!-- Imagen que aparece al final -->
-  <img id="imagen" src="TÚ_IMAGEN_AQUÍ.jpg" alt="Sorpresa" />
+  <!-- Contenido final (oculto al principio) -->
+  <div id="final">
+    <img src="images/1.png" alt="Imagen 1">
+    <img src="images/2.png" alt="Imagen 2">
+    <video src="images/3.mp4" controls></video>
+    <div class="mensaje">
+      Este 31 de Julio nos quedamos una nochesita en el <br><strong>Parador De Cruz de Tejeda</strong>
+    </div>
+  </div>
 
   <script>
     let contador = 21;
     const numero = document.getElementById('numero');
     const agua = document.getElementById('agua');
-    const imagen = document.getElementById('imagen');
+    const final = document.getElementById('final');
     const wrapper = document.querySelector('.contador-wrapper');
 
     const intervalo = setInterval(() => {
       contador--;
       if (contador >= 0) {
         numero.textContent = contador;
-
-        // Altura dinámica del agua desde 200px (lleno) hasta 0px (vacío)
         const porcentaje = contador / 21;
         const nuevaAltura = porcentaje * 200;
         agua.setAttribute('y', 200 - nuevaAltura);
@@ -103,7 +123,7 @@
       if (contador === 0) {
         clearInterval(intervalo);
         wrapper.style.display = 'none';
-        imagen.classList.add('mostrar');
+        final.style.display = 'flex';
       }
     }, 1000);
   </script>

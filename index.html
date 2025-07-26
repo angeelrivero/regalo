@@ -29,11 +29,9 @@
     }
 
     .wave {
-      fill: #ff69b4;
       animation: waveMove 2s infinite linear;
     }
 
-    /* Movimiento horizontal continuo de la ola */
     @keyframes waveMove {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
@@ -71,42 +69,28 @@
   <div class="contador-wrapper">
     <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <!-- Clip circular para todo el contenido -->
         <clipPath id="clipCircle">
           <circle cx="100" cy="100" r="100" />
         </clipPath>
-
-        <!-- Degradado rosa para el fondo del agua -->
-        <linearGradient id="aguaRosa" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ffb6c1" />
-          <stop offset="100%" stop-color="#ff69b4" />
-        </linearGradient>
       </defs>
 
-      <!-- Grupo enmascarado con forma de círculo -->
       <g clip-path="url(#clipCircle)">
-        <!-- Fondo rosa claro para cuando el agua baje completamente -->
+        <!-- Fondo estático -->
         <rect x="0" y="0" width="200" height="200" fill="#ffc0cb" />
 
-        <!-- Grupo del agua que se irá bajando -->
+        <!-- Solo la ola -->
         <g id="grupoAgua" transform="translate(0, 0)">
-          <!-- Fondo de agua con degradado -->
-          <rect width="200" height="200" fill="url(#aguaRosa)" />
-
-          <!-- Ola que se mueve horizontalmente -->
-          <g class="wave" style="transform: translateX(0);">
+          <g class="wave">
             <path d="M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z" 
-                  fill="#ff69b4" opacity="0.6" />
+                  fill="#ff69b4" opacity="0.8" />
           </g>
         </g>
       </g>
     </svg>
 
-    <!-- Número central del contador -->
     <div class="numero" id="numero">21</div>
   </div>
 
-  <!-- Imagen sorpresa final -->
   <img id="imagen" src="TÚ_IMAGEN_AQUÍ.jpg" alt="Sorpresa" />
 
   <script>
@@ -115,19 +99,15 @@
     const imagen = document.getElementById('imagen');
     const grupoAgua = document.getElementById('grupoAgua');
 
-    // Animación del contador
     const intervalo = setInterval(() => {
       contador--;
       if (contador >= 0) {
         numero.textContent = contador;
-
-        // Calculamos el desplazamiento del agua (baja desde arriba a abajo)
         const porcentaje = 1 - contador / 21;
         const desplazamiento = porcentaje * 200;
         grupoAgua.setAttribute('transform', `translate(0, ${desplazamiento})`);
       }
 
-      // Cuando el contador llegue a 0
       if (contador === 0) {
         clearInterval(intervalo);
         document.querySelector('.contador-wrapper').style.display = 'none';

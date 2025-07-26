@@ -7,7 +7,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #ffc0cb;
+      background-color: #ffc0cb; /* Fondo rosa */
       font-family: 'Comic Sans MS', cursive, sans-serif;
       display: flex;
       justify-content: center;
@@ -30,6 +30,12 @@
 
     .wave {
       fill: #ff69b4;
+      animation: waveMove 2s infinite linear;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
     .numero {
@@ -38,9 +44,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-size: 60px;
-      color: #fff;
+      color: white;
       font-weight: bold;
       text-shadow: 1px 1px 2px #ff1493;
+      z-index: 2;
     }
 
     #imagen {
@@ -61,11 +68,14 @@
 <body>
 
   <div class="contador-wrapper">
-    <svg viewBox="0 0 200 200">
+    <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
       <defs>
+        <!-- Clip circular para enmascarar todo dentro del círculo -->
         <clipPath id="clipCircle">
           <circle cx="100" cy="100" r="100" />
         </clipPath>
+
+        <!-- Degradado rosa para el agua -->
         <linearGradient id="aguaRosa" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#ffb6c1" />
           <stop offset="100%" stop-color="#ff69b4" />
@@ -73,40 +83,45 @@
       </defs>
 
       <g clip-path="url(#clipCircle)">
-        <!-- Rectángulo de fondo de agua -->
-        <rect id="agua" x="0" y="0" width="200" height="200" fill="url(#aguaRosa)">
-          <animate attributeName="y" from="0" to="200" dur="21s" fill="freeze" />
-        </rect>
+        <!-- Fondo rosa claro -->
+        <rect x="0" y="0" width="200" height="200" fill="#ffc0cb" />
 
-        <!-- Ondas estáticas al tope del agua -->
-        <path class="wave" d="M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z" fill="#ff69b4" opacity="0.6">
-          <animate attributeName="d" dur="2s" repeatCount="indefinite"
-            values="
-              M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z;
-              M0 162 Q 25 152, 50 162 T 100 162 T 150 162 T 200 162 V200 H0Z;
-              M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z
-            " />
-        </path>
+        <!-- Grupo del agua (fondo + onda) -->
+        <g id="grupoAgua" transform="translate(0, 0)">
+          <!-- Fondo del agua que se moverá hacia abajo -->
+          <rect width="200" height="200" fill="url(#aguaRosa)"></rect>
+
+          <!-- Ola ondulante -->
+          <path class="wave" d="M0 160 Q 25 150, 50 160 T 100 160 T 150 160 T 200 160 V200 H0Z" 
+                fill="#ff69b4" opacity="0.6" />
+        </g>
       </g>
-
-      <!-- Borde exterior -->
-      <circle cx="100" cy="100" r="98" stroke="#ff69b4" stroke-width="4" fill="none" />
     </svg>
+
+    <!-- Número en el centro -->
     <div class="numero" id="numero">21</div>
   </div>
 
+  <!-- Imagen final -->
   <img id="imagen" src="TÚ_IMAGEN_AQUÍ.jpg" alt="Sorpresa" />
 
   <script>
     let contador = 21;
     const numero = document.getElementById('numero');
     const imagen = document.getElementById('imagen');
+    const grupoAgua = document.getElementById('grupoAgua');
 
     const intervalo = setInterval(() => {
       contador--;
       if (contador >= 0) {
         numero.textContent = contador;
+
+        // Calculamos cuánto bajar el agua
+        const porcentaje = 1 - contador / 21;
+        const desplazamiento = porcentaje * 200;
+        grupoAgua.setAttribute('transform', `translate(0, ${desplazamiento})`);
       }
+
       if (contador === 0) {
         clearInterval(intervalo);
         document.querySelector('.contador-wrapper').style.display = 'none';
